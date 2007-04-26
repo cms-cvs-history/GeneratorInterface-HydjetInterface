@@ -1,0 +1,7 @@
+<use name=boost>
+<use name=root>
+<use name=GeneratorInterface/HydjetInterface>
+<use name=SimDataFormats/HepMCProduct>
+<flags SEAL_PLUGIN_NAME="HydjetAnalyzer">
+<library file=HydjetAnalyzer.cc name=HydjetAnalyzer>
+</library>
