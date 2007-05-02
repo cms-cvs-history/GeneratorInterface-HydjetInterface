@@ -1,0 +1,44 @@
+    untracked int32 maxEventsToPrint      = 0
+    untracked int32 pythiaPylistVerbosity = 0
+    untracked int32 maxEventsToPrint      = 0 # #ev to print if pythiaPylistVerbosit
+
+    double aBeamTarget   = 207              # beam/target atomic number
+    double bFixed        = 0.               # fixed impact param (fm); valid only if cflag_=0
+    double bMax          = 0.               # max impact param (fm)
+    double bMin          = 0.               # min impact param (fm)
+    int32  cFlag         = 0                # centrality flag
+                                            # =  0 fixed impact param
+                                            # <> 0 between bmin and bmax
+    double comEnergy     = 5500.            # collision energy 
+    string hydjetMode    = "kHydroQJets"    # Hydjet running mode.
+
+# Valid entries:
+# kHydroOnly  //jet production off (pure HYDRO event): nhsel=0
+# kHydroJets  //jet production on, jet quenching off (HYDRO+njet*PYTHIA events):nhsel=1
+# kHydroQJets //jet production & jet quenching on (HYDRO+njet*PYQUEN events);nhsel=2
+# kJetsOnly   //jet production on, jet quenching off, HYDRO off (njet*PYTHIA events):nhsel=3
+# kQJetsOnly  //jet production & jet quenching on, HYDRO off (njet*PYQUEN events):nhsel=4
+
+    int32  nMultiplicity = 26000            # mean soft multiplicity in central PbPb
+                                            # automatically calculated for other centralities and beams
+    double ptMin = 10                       # min pT in hard-scattering
+
+
+PSet HydjetParameters = {
+    	vstring parameterSets = {
+		"hydjet"}
+	vstring	hydjet = {
+	'fpart=0.',
+        'ylfl=5.',
+        'ytfl=1.'
+	}	
+}	
+
+PSet PythiaParameters = { 
+	vstring parameterSets = {
+		"pythia"}
+      	vstring pythia = { 
+        	'PMAS(5,1)=4.8   ! b quark mass',
+        	'PMAS(6,1)=172.3 ! t quark mass'
+	      	}
+    		}
