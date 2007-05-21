@@ -1,0 +1,27 @@
+PSet PythiaParameters = { 
+	vstring parameterSets = {"pythia"}
+      	vstring pythia = { 
+ 		'MSEL=1          ! QCD dijet production',
+		'MSTU(21)=1      ! to avoid stopping run',
+		'PARU(14)=1.     ! tolerance parameter to adjust fragmentation',
+		'MSTP(81)=0      ! pp multiple scattering off',
+        	'PMAS(5,1)=4.8   ! b quark mass',
+        	'PMAS(6,1)=172.3 ! t quark mass'
+	      	}
+}
+
+PSet HydjetParameters = {
+    	vstring parameterSets = {"hydjet"}
+	vstring	hydjet = {	
+		'fpart=0.',  # fraction of soft hydro induced hadronic multiplicity',
+		'nhsel=2',   # jet production and jet quenching on',
+		'ptmin=10.', # minimum pT hard',
+	        'ylfl=5.',   # max longitudinal flow rapidity',
+	        'ytfl=1.'    # max transversal flow rapidity'
+	}	
+}	
+
+
+  
+
+

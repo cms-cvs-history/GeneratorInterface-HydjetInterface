@@ -1,0 +1,8 @@
+vstring pythiaDefault = { 
+ 	'MSEL=0          ! user settings',
+	'MSTU(21)=1      ! to avoid stopping run',
+	'PARU(14)=1.     ! tolerance parameter to adjust fragmentation',
+	'MSTP(81)=0      ! pp multiple scattering off',
+        'PMAS(5,1)=4.8   ! b quark mass',
+        'PMAS(6,1)=172.3 ! t quark mass'
+}
