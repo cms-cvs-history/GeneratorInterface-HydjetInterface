@@ -2,6 +2,6 @@
 <use name=root>
 <use name=GeneratorInterface/HydjetInterface>
 <use name=SimDataFormats/HepMCProduct>
-<flags SEAL_PLUGIN_NAME="HydjetAnalyzer">
+<flags EDMPLUGIN=1>
 <library file=HydjetAnalyzer.cc name=HydjetAnalyzer>
 </library>
