@@ -20,9 +20,6 @@ class HydjetAnalyzer : public edm::EDAnalyzer
 
  private:
  
-  std::string  sOutFileName;       // name of the output file
-
-  TFile*       pfOutFile;          // output file
   TH1D*        phdNdEta;           // histogram for dN/deta
   TH1D*        phdNdY;             // histogram for dN/dy
   TH1D*        phdNdPt;            // histogram for dN/dpt
