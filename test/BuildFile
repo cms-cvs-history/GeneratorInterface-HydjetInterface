@@ -7,4 +7,5 @@
 <use name=FWCore/ServiceRegistry>
 <flags EDM_PLUGIN=1>
 <library file=HydjetAnalyzer.cc name=HydjetAnalyzer>
+<library file=SubEventAnalyzer.cc name=SubEventAnalyzer>
 </library>
