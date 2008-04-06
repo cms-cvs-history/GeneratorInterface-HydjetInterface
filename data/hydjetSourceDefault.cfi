@@ -1,3 +1,5 @@
+block hydjetSoureDefaultBlock = {
+
     untracked int32 pythiaPylistVerbosity = 0
     untracked int32 maxEventsToPrint      = 0 # events to print if pythiaPylistVerbosit
 
@@ -56,3 +58,5 @@
  
     double sigmaInelNN               = 58     # inelastic nucleon-nucleon cross section (mb)
     int32 shadowingSwitch            = 1      # nuclear shadowing 1=ON, 0=OFF
+
+}
