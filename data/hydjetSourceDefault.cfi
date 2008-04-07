@@ -1,4 +1,4 @@
-block hydjetSoureDefaultBlock = {
+block hydjetSourceDefaultBlock = {
 
     untracked int32 pythiaPylistVerbosity = 0
     untracked int32 maxEventsToPrint      = 0 # events to print if pythiaPylistVerbosit
