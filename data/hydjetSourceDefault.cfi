@@ -1,7 +1,22 @@
-block hydjetSourceDefaultBlock = {
+include "GeneratorInterface/PyquenInterface/data/pyquenPythiaDefault.cfi"
+
+source = HydjetSource {
 
     untracked int32 pythiaPylistVerbosity = 0
     untracked int32 maxEventsToPrint      = 0 # events to print if pythiaPylistVerbosit
+
+
+   PSet PythiaParameters = {
+        # This is a vector of ParameterSet names to be read, in this order
+        # They are  in the include files
+        # pythiaDefault HAS TO BE ALWAYS included
+        # If just the hard QCD dijets wanted, comment out the photons corresponding include and parameter set
+        vstring parameterSets = {
+                "pythiaDefault"        # MSEL=1 (hard QCD dijets in) + hydjet needed initializations
+                }
+        using pyquenPythiaDefaultBlock
+    }  
+
 
     double aBeamTarget               = 207.  # beam/target atomic number
 
