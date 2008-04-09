@@ -13,7 +13,7 @@
 //
 // Original Author:  Yetkin Yilmaz
 //         Created:  Tue Dec 18 09:44:41 EST 2007
-// $Id$
+// $Id: SubEventAnalyzer.cc,v 1.1 2008/01/28 16:08:46 yilmaz Exp $
 //
 //
 
@@ -69,7 +69,7 @@ class SubEventAnalyzer : public edm::EDAnalyzer {
    TNtuple* vertices;
 
    edm::Service<TFileService> fs;
-
+   std::string modLabel_;
 };
 
 //
@@ -84,6 +84,7 @@ class SubEventAnalyzer : public edm::EDAnalyzer {
 // constructors and destructor
 //
 SubEventAnalyzer::SubEventAnalyzer(const edm::ParameterSet& iConfig)
+  : modLabel_(iConfig.getUntrackedParameter<string>("moduleLabel","source"))
 {
    //now do what ever initialization is needed
 
@@ -118,7 +119,8 @@ SubEventAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetu
    TH1D dNdEtaEv("h2","dNdEta of Whole Event",30,-6,6);
 
    Handle<HepMCProduct> mc;
-   iEvent.getByLabel("source",mc);
+// iEvent.getByLabel("source",mc);
+   iEvent.getByLabel(modLabel_,mc);
 
    double N = 0;
    double Nall = 0;
@@ -149,7 +151,8 @@ SubEventAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetu
    }
 
    Handle<GenHIEvent> genhi;
-   iEvent.getByLabel("source",genhi);
+// iEvent.getByLabel("source",genhi);
+   iEvent.getByLabel(modLabel_,genhi);
    int nsub = genhi->getNsubs();
 
    for(int isub = 0; isub < nsub; isub++){
