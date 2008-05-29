@@ -26,6 +26,7 @@ class HydjetAnalyzer : public edm::EDAnalyzer
   TH1D*        phdNdPhi;           // histogram for dN/dphi
 
   std::string  modLabel_;
+  int          nevents_;
 
 };
 
