@@ -12,7 +12,10 @@ source = HydjetSource {
         # pythiaDefault HAS TO BE ALWAYS included
         # If just the hard QCD dijets wanted, comment out the photons corresponding include and parameter set
         vstring parameterSets = {
-                "pythiaDefault"        # MSEL=1 (hard QCD dijets in) + hydjet needed initializations
+		"pythiaDefault",
+                "orcaSettings",
+		"pythiaPromptPhotons",
+		"pythiaJets"
                 }
         using pyquenPythiaDefaultBlock
     }  
@@ -53,10 +56,10 @@ source = HydjetSource {
 # kQJetsOnly  //jet production & jet quenching on, HYDRO off (njet*PYQUEN events):nhsel=4
 
 
-    double maxLongitudinalRapidity   = 3.75     # max longitudinal collective rapidity: 
+    double maxLongitudinalRapidity   = 3.75   # max longitudinal collective rapidity: 
                                               # range: [0.01,7.0]
 
-    double maxTransverseRapidity     = 1.    # max transverse collective rapidity: 
+    double maxTransverseRapidity     = 1.     # max transverse collective rapidity: 
 					      # range: [0.01,3.0]
 
     int32  nMultiplicity             = 26000  # mean soft multiplicity in central PbPb
