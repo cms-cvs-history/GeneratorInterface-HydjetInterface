@@ -20,6 +20,8 @@ source = HydjetSource {
 
     double aBeamTarget               = 207.  # beam/target atomic number
 
+    bool allowEmptyEvents            = false
+
     double bFixed                    = 0.    # fixed impact param (fm); 
 					     # valid only if cflag_=0
 					     # range: 0<bFixed<3*RA
