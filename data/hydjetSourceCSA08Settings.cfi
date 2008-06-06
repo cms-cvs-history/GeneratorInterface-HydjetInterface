@@ -13,8 +13,7 @@ source = HydjetSource {
         # If just the hard QCD dijets wanted, comment out the photons corresponding include and parameter set
         vstring parameterSets = {
 		"pythiaDefault",
-                "orcaSettings",
-		"pythiaPromptPhotons",
+                "csa08Settings",
 		"pythiaJets"
                 }
         using pyquenPythiaDefaultBlock
