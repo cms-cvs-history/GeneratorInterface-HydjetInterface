@@ -5,6 +5,7 @@ source = HydjetSource {
     untracked int32 pythiaPylistVerbosity = 0
     untracked int32 maxEventsToPrint      = 0 # events to print if pythiaPylistVerbosit
 
+    bool allowEmptyEvents = false
 
    PSet PythiaParameters = {
         # This is a vector of ParameterSet names to be read, in this order
