@@ -3,6 +3,7 @@
 <use name=heppdt>
 <use name=GeneratorInterface/HydjetInterface>
 <use name=FWCore/Framework>
+<use name=SimDataFormats/Vertex>
 <use name=SimDataFormats/HepMCProduct>
 <use name=SimDataFormats/HiGenData>
 <use name=SimGeneral/HepPDTRecord>
