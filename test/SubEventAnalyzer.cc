@@ -13,7 +13,7 @@
 //
 // Original Author:  Yetkin Yilmaz
 //         Created:  Tue Dec 18 09:44:41 EST 2007
-// $Id: SubEventAnalyzer.cc,v 1.1 2008/01/28 16:08:46 yilmaz Exp $
+// $Id: SubEventAnalyzer.cc,v 1.2 2008/04/09 15:40:35 marafino Exp $
 //
 //
 
@@ -34,7 +34,7 @@
 
 #include "PhysicsTools/UtilAlgos/interface/TFileService.h"
 
-#include "SimDataFormats/HepMCProduct/interface/HepMCProduct.h"
+#include "SimDataFormats/GeneratorProducts/interface/HepMCProduct.h"
 #include "SimDataFormats/HiGenData/interface/GenHIEvent.h"
 
 
