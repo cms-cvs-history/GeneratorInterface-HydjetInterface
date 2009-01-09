@@ -1,7 +1,7 @@
 #include <iostream>
 
 #include "HydjetAnalyzer.h"
-#include "SimDataFormats/HepMCProduct/interface/HepMCProduct.h"
+#include "SimDataFormats/GeneratorProducts/interface/HepMCProduct.h"
 #include "DataFormats/Candidate/interface/Candidate.h"
 #include "DataFormats/RecoCandidate/interface/RecoCandidate.h"
 #include "FWCore/ParameterSet/interface/ParameterSet.h"
