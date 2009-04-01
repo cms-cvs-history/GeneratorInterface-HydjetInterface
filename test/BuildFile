@@ -1,7 +1,7 @@
 <use name=boost>
 <use name=root>
 <use name=GeneratorInterface/HydjetInterface>
-<use name=SimDataFormats/HepMCProduct>
+<use name=SimDataFormats/GeneratorProducts>
 <use name=SimDataFormats/HiGenData>
 <use name=PhysicsTools/UtilAlgos>
 <use name=FWCore/ServiceRegistry>

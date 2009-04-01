@@ -1,5 +1,5 @@
 /*
- * $Id: HydjetSource.cc,v 1.21 2008/06/04 09:15:46 yilmaz Exp $
+ * $Id: HydjetSource.cc,v 1.22.2.1 2009/01/09 10:34:27 saout Exp $
  *
  * Interface to the HYDJET generator, produces HepMC events
  *
@@ -21,14 +21,14 @@
 #include "GeneratorInterface/HydjetInterface/interface/HydjetSource.h"
 #include "GeneratorInterface/HydjetInterface/interface/PYR.h"
 #include "GeneratorInterface/HydjetInterface/interface/HydjetWrapper.h"
-#include "GeneratorInterface/CommonInterface/interface/PythiaCMS.h"
+#include "GeneratorInterface/Pythia6Interface/interface/Pythia6Declarations.h"
 
 #include "HepMC/PythiaWrapper6_2.h"
 #include "HepMC/GenEvent.h"
 #include "HepMC/HeavyIon.h"
 #include "HepMC/SimpleVector.h"
 
-#include "SimDataFormats/HepMCProduct/interface/HepMCProduct.h"
+#include "SimDataFormats/GeneratorProducts/interface/HepMCProduct.h"
 #include "SimDataFormats/HiGenData/interface/GenHIEvent.h"
 
 
@@ -178,7 +178,7 @@ bool HydjetSource::call_pygive(const std::string& iParm )
   int numWarn = pydat1.mstu[26]; //# warnings
   int numErr = pydat1.mstu[22];// # errors
   // call the fortran routine pygive with a fortran string
-  PYGIVE( iParm.c_str(), iParm.length() );  
+  gen::pygive_( iParm.c_str(), iParm.length() );  
 
   // if an error or warning happens it is problem
   return pydat1.mstu[26] == numWarn && pydat1.mstu[22] == numErr;   
