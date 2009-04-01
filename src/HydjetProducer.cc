@@ -1,5 +1,5 @@
 /*
- * $Id: HydjetProducer.cc,v 1.3 2008/04/21 16:51:48 yilmaz Exp $
+ * $Id: HydjetProducer.cc,v 1.5 2009/01/09 10:23:09 saout Exp $
  *
  * Interface to the HYDJET generator, produces HepMC events
  *
@@ -22,7 +22,7 @@
 #include "GeneratorInterface/HydjetInterface/interface/HydjetProducer.h"
 #include "GeneratorInterface/HydjetInterface/interface/PYR.h"
 #include "GeneratorInterface/HydjetInterface/interface/HydjetWrapper.h"
-#include "GeneratorInterface/CommonInterface/interface/PythiaCMS.h"
+#include "GeneratorInterface/Pythia6Interface/interface/Pythia6Declarations.h"
 
 #include "HepMC/PythiaWrapper6_2.h"
 #include "HepMC/GenEvent.h"
@@ -179,7 +179,7 @@ bool HydjetProducer::call_pygive(const std::string& iParm )
   int numWarn = pydat1.mstu[26]; //# warnings
   int numErr = pydat1.mstu[22];// # errors
   // call the fortran routine pygive with a fortran string
-  PYGIVE( iParm.c_str(), iParm.length() );  
+  gen::pygive_( iParm.c_str(), iParm.length() );  
 
   // if an error or warning happens it is problem
   return pydat1.mstu[26] == numWarn && pydat1.mstu[22] == numErr;   
