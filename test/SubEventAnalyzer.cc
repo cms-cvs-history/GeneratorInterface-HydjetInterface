@@ -13,7 +13,7 @@
 //
 // Original Author:  Yetkin Yilmaz
 //         Created:  Tue Dec 18 09:44:41 EST 2007
-// $Id: SubEventAnalyzer.cc,v 1.2 2008/04/09 15:40:35 marafino Exp $
+// $Id: SubEventAnalyzer.cc,v 1.4 2009/01/09 10:23:10 saout Exp $
 //
 //
 
@@ -36,8 +36,9 @@
 
 #include "SimDataFormats/GeneratorProducts/interface/HepMCProduct.h"
 #include "SimDataFormats/HiGenData/interface/GenHIEvent.h"
-
-
+#include "DataFormats/Common/interface/View.h"
+#include "DataFormats/HepMCCandidate/interface/GenParticle.h"
+#include "SimDataFormats/HiGenData/interface/SubEventMap.h"
 #include "HepMC/GenEvent.h"
 #include "HepMC/HeavyIon.h"
 
@@ -56,20 +57,24 @@ class SubEventAnalyzer : public edm::EDAnalyzer {
       explicit SubEventAnalyzer(const edm::ParameterSet&);
       ~SubEventAnalyzer();
 
-
    private:
       virtual void beginJob(const edm::EventSetup&) ;
       virtual void analyze(const edm::Event&, const edm::EventSetup&);
       virtual void endJob() ;
+  void doGenParticleCandidates(const edm::Event&);
+  void doHepMC(const edm::Event&);
 
       // ----------member data ---------------------------
 
    TNtuple* subs;
+   TNtuple* subs2;
    TNtuple* events;
    TNtuple* vertices;
 
    edm::Service<TFileService> fs;
-   std::string modLabel_;
+  std::string genPartsLabel_;
+  std::string hepmcLabel_;
+
 };
 
 //
@@ -84,7 +89,7 @@ class SubEventAnalyzer : public edm::EDAnalyzer {
 // constructors and destructor
 //
 SubEventAnalyzer::SubEventAnalyzer(const edm::ParameterSet& iConfig)
-  : modLabel_(iConfig.getUntrackedParameter<string>("moduleLabel","source"))
+  : genPartsLabel_(iConfig.getUntrackedParameter<string>("genParticles","hiGenParticles")),hepmcLabel_(iConfig.getUntrackedParameter<string>("hepmcLabel","generator"))
 {
    //now do what ever initialization is needed
 
@@ -108,6 +113,16 @@ void
 SubEventAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup)
 {
 
+  doHepMC(iEvent);
+  doGenParticleCandidates(iEvent);
+
+
+}
+
+
+void
+SubEventAnalyzer::doHepMC(const edm::Event& iEvent){
+
   /* Events, Sub Events and Vertices are looped over seperately for different 
      consistency checks. Particles are looped over for three times; this is to
      check the consistency of different ways to reach the same info.
@@ -119,8 +134,7 @@ SubEventAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetu
    TH1D dNdEtaEv("h2","dNdEta of Whole Event",30,-6,6);
 
    Handle<HepMCProduct> mc;
-// iEvent.getByLabel("source",mc);
-   iEvent.getByLabel(modLabel_,mc);
+   iEvent.getByLabel(hepmcLabel_,mc);
 
    double N = 0;
    double Nall = 0;
@@ -150,10 +164,11 @@ SubEventAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetu
       HepMC::GenVertex* vert = *v;
    }
 
-   Handle<GenHIEvent> genhi;
-// iEvent.getByLabel("source",genhi);
-   iEvent.getByLabel(modLabel_,genhi);
-   int nsub = genhi->getNsubs();
+   //   Handle<GenHIEvent> genhi;
+   //   iEvent.getByLabel(hepmcLabel_,genhi);
+   //   int nsub = genhi->getNsubs();
+
+   int nsub = evt->heavy_ion()->Ncoll_hard();
 
    for(int isub = 0; isub < nsub; isub++){
 
@@ -161,7 +176,7 @@ SubEventAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetu
       double con = 0;
       int index = 0;
 
-      SubEvent sub = genhi->getSubEvent(isub);
+      SubEvent sub(isub);
       GenVertex* v = sub.getVertex(*evt);
       GenVertex::vertex_iterator vbeg = v->vertices_begin(HepMC::relatives);
       GenVertex::vertex_iterator vend = v->vertices_end(HepMC::relatives);
@@ -211,7 +226,7 @@ SubEventAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetu
    Etot = Etot + etot;
 
    double width = dNdEta.GetRMS();
-   subs->Fill(pthigh,con,nps,npsall,etot,width);
+   subs->Fill(isub,npsall);
 
    }
 
@@ -227,8 +242,13 @@ SubEventAnalyzer::beginJob(const edm::EventSetup&)
 {
 
    vertices = fs->make<TNtuple>("vertices","","mom:npi:npo");
-   subs = fs->make<TNtuple>("subs","","pthigh:mom:npr:np:etot:width");
+   subs = fs->make<TNtuple>("subs","","sub:np");
+
    events = fs->make<TNtuple>("events","","pthigh:mom:npr:np:etot:width:nsub");
+
+   subs2 = fs->make<TNtuple>("subs2","","sub:np");
+
+
 
 }
 
@@ -236,6 +256,42 @@ SubEventAnalyzer::beginJob(const edm::EventSetup&)
 void 
 SubEventAnalyzer::endJob() {
 }
+
+
+void
+SubEventAnalyzer::doGenParticleCandidates(const edm::Event& iEvent){
+  using namespace reco;
+
+  edm::Handle< edm::View<Candidate> > inputHandle;
+  iEvent.getByLabel(genPartsLabel_,inputHandle);
+
+  edm::Handle<edm::SubEventMap> subs;
+  iEvent.getByLabel(genPartsLabel_,subs);
+
+  int hydroEvent = -1;
+  vector<vector<int> > nsubparticle;
+  for (unsigned i = 0; i < inputHandle->size(); ++i) {
+    GenParticleRef pref = inputHandle->refAt(i).castTo<GenParticleRef>();
+
+    int subevent = (*subs)[pref];
+    LogDebug("SubEventJets")<<" subevent "<<subevent;
+
+    if(subevent >= nsubparticle.size()){ 
+      nsubparticle.resize(subevent+1);
+    }
+
+    nsubparticle[subevent].push_back(1);
+    
+  }
+
+  for(int i = 0; i < nsubparticle.size(); ++i){
+     int np = nsubparticle[i].size();
+     subs2->Fill(i,np);
+  }
+
+}
+
+
 
 //define this as a plug-in
 DEFINE_FWK_MODULE(SubEventAnalyzer);
