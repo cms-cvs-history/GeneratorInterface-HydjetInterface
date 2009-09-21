@@ -13,7 +13,7 @@
 //
 // Original Author:  Yetkin Yilmaz
 //         Created:  Tue Dec 18 09:44:41 EST 2007
-// $Id: SubEventAnalyzer.cc,v 1.4 2009/01/09 10:23:10 saout Exp $
+// $Id: SubEventAnalyzer.cc,v 1.5 2009/07/15 14:57:15 yilmaz Exp $
 //
 //
 
@@ -158,11 +158,11 @@ SubEventAnalyzer::doHepMC(const edm::Event& iEvent){
       if(pt > Pthigh) Pthigh = pt;
    }
 
-   GenEvent::vertex_const_iterator begin = evt->vertices_begin();
-   GenEvent::vertex_const_iterator end = evt->vertices_end();
-   for(GenEvent::vertex_const_iterator v = begin; v != end; ++v){
-      HepMC::GenVertex* vert = *v;
-   }
+   //GenEvent::vertex_const_iterator begin = evt->vertices_begin();
+   //GenEvent::vertex_const_iterator end = evt->vertices_end();
+   //for(GenEvent::vertex_const_iterator v = begin; v != end; ++v){
+   //   HepMC::GenVertex* vert = *v;
+   //}
 
    //   Handle<GenHIEvent> genhi;
    //   iEvent.getByLabel(hepmcLabel_,genhi);
@@ -174,7 +174,7 @@ SubEventAnalyzer::doHepMC(const edm::Event& iEvent){
 
       TH1D dNdEta("h1","dNdEta of the Sub Event",30,-6,6);
       double con = 0;
-      int index = 0;
+      //int index = 0;
 
       SubEvent sub(isub);
       GenVertex* v = sub.getVertex(*evt);
@@ -185,7 +185,7 @@ SubEventAnalyzer::doHepMC(const edm::Event& iEvent){
       bool fill = 1;
       GenVertex* vert = *vit;
       HepMC::GenVertex::particle_iterator pf;
-      HepMC::GenVertex::particle_iterator startf = vert->particles_begin( HepMC::family ); //                                                       
+      HepMC::GenVertex::particle_iterator startf = vert->particles_begin( HepMC::family ); 
       HepMC::GenVertex::particle_iterator endf = vert->particles_end( HepMC::family );
       for ( pf = startf; pf != endf; ++pf ) {
 	 GenParticle* par1 = *pf;
@@ -225,7 +225,7 @@ SubEventAnalyzer::doHepMC(const edm::Event& iEvent){
    Nall = Nall + npsall;
    Etot = Etot + etot;
 
-   double width = dNdEta.GetRMS();
+   //double width = dNdEta.GetRMS();
    subs->Fill(isub,npsall);
 
    }
@@ -268,12 +268,12 @@ SubEventAnalyzer::doGenParticleCandidates(const edm::Event& iEvent){
   edm::Handle<edm::SubEventMap> subs;
   iEvent.getByLabel(genPartsLabel_,subs);
 
-  int hydroEvent = -1;
+  //int hydroEvent = -1;
   vector<vector<int> > nsubparticle;
   for (unsigned i = 0; i < inputHandle->size(); ++i) {
     GenParticleRef pref = inputHandle->refAt(i).castTo<GenParticleRef>();
 
-    int subevent = (*subs)[pref];
+    unsigned int subevent = (*subs)[pref];
     LogDebug("SubEventJets")<<" subevent "<<subevent;
 
     if(subevent >= nsubparticle.size()){ 
@@ -284,7 +284,7 @@ SubEventAnalyzer::doGenParticleCandidates(const edm::Event& iEvent){
     
   }
 
-  for(int i = 0; i < nsubparticle.size(); ++i){
+  for(unsigned int i = 0; i < nsubparticle.size(); ++i){
      int np = nsubparticle[i].size();
      subs2->Fill(i,np);
   }
