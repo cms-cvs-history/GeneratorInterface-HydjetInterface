@@ -13,7 +13,7 @@
 //
 // Original Author:  Yetkin Yilmaz
 //         Created:  Tue Dec 18 09:44:41 EST 2007
-// $Id: SubEventAnalyzer.cc,v 1.5 2009/07/15 14:57:15 yilmaz Exp $
+// $Id: SubEventAnalyzer.cc,v 1.6 2009/09/21 09:36:57 loizides Exp $
 //
 //
 
@@ -58,7 +58,7 @@ class SubEventAnalyzer : public edm::EDAnalyzer {
       ~SubEventAnalyzer();
 
    private:
-      virtual void beginJob(const edm::EventSetup&) ;
+      virtual void beginJob() ;
       virtual void analyze(const edm::Event&, const edm::EventSetup&);
       virtual void endJob() ;
   void doGenParticleCandidates(const edm::Event&);
@@ -238,7 +238,7 @@ SubEventAnalyzer::doHepMC(const edm::Event& iEvent){
 
 // ------------ method called once each job just before starting event loop  ------------
 void 
-SubEventAnalyzer::beginJob(const edm::EventSetup&)
+SubEventAnalyzer::beginJob()
 {
 
    vertices = fs->make<TNtuple>("vertices","","mom:npi:npo");
